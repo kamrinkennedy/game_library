@@ -1,0 +1,13 @@
+<h1>Please enter your username and password to log in.</h1>
+<br><br>
+<% if @error %>
+<h2><%= @error %></h2>
+<% end %>
+<form method="POST" action='/login'>
+<h2>Username: </h2>
+<input type="text" name="user[username]">
+<h2>Password: </h2>
+<input type="text" name="user[password]">
+<br>
+<input type="submit" name="Submit">
+</form>
