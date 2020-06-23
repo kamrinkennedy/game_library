@@ -1,6 +1,9 @@
 class UserController < ApplicationController
 
     get '/signup' do
+        if session[:user_id]
+            session.clear
+        end
         erb :'user/new'
     end
 
@@ -17,7 +20,11 @@ class UserController < ApplicationController
 
     get '/profile' do
         @user = User.find_by_id(session[:user_id])
-        erb :'user/profile'
+        if @user
+            erb :'user/profile'
+        else
+            redirect '/login'
+        end
     end
 
     get '/login' do
@@ -33,6 +40,11 @@ class UserController < ApplicationController
             @error = "*Invalid information. Please try again*"
             erb :'user/login'
         end
+    end
+
+    get '/logout' do
+        session.clear
+        redirect '/login'
     end
 
 end
