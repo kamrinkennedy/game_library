@@ -20,6 +20,12 @@ class PlatformController < ApplicationController
         erb :'platform/show'
     end
 
+    delete '/platform/:id' do
+        platform = Platform.find_by_id(params[:id])
+        platform.destroy
+        redirect '/profile'
+    end
+
     helpers do
         def logged_in?
             !!session[:user_id]
