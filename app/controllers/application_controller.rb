@@ -10,11 +10,13 @@ class ApplicationController < Sinatra::Base
   end
 
   get "/" do
-    if session[:user_id]
+    if logged_in?
       redirect '/profile'
     else
       erb :index
     end
   end
+
+
 
 end

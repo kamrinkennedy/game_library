@@ -1,7 +1,7 @@
 class UserController < ApplicationController
 
     get '/signup' do
-        if session[:user_id]
+        if logged_in?
             redirect '/profile'
         end
         erb :'user/new'
@@ -20,6 +20,7 @@ class UserController < ApplicationController
 
     get '/profile' do
         @user = User.find_by_id(session[:user_id])
+        @platforms = @user.platforms
         if @user
             erb :'user/profile'
         else
@@ -28,6 +29,9 @@ class UserController < ApplicationController
     end
 
     get '/login' do
+        if logged_in?
+            redirect '/profile'
+        end
         erb :'user/login'
     end
 
@@ -46,5 +50,15 @@ class UserController < ApplicationController
         session.clear
         redirect '/login'
     end
+
+    helpers do
+        def logged_in?
+            !!session[:user_id]
+        end
+    
+        def current_user  #memoization
+            @current_user ||= User.find_by_id(session[:user_id])
+        end
+      end
 
 end

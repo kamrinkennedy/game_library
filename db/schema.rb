@@ -23,7 +23,7 @@ ActiveRecord::Schema.define(version: 20200622204115) do
 
   create_table "platforms", force: :cascade do |t|
     t.string  "name"
-    t.boolean "online"
+    t.string  "online"
     t.integer "user_id"
   end
 

@@ -1,0 +1,4 @@
+<h1>Here are the games you have for <%= @platform.name %></h1>
+<% @platform.games.each do |game| %>
+<h2><% game.name %></h2>
+<% end %>
