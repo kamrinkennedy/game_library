@@ -2,7 +2,7 @@ class UserController < ApplicationController
 
     get '/signup' do
         if session[:user_id]
-            session.clear
+            redirect '/profile'
         end
         erb :'user/new'
     end

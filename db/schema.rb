@@ -15,12 +15,15 @@ ActiveRecord::Schema.define(version: 20200622204115) do
 
   create_table "games", force: :cascade do |t|
     t.string  "name"
-    t.string  "num_of_players"
+    t.string  "players"
+    t.text    "description"
+    t.integer "platform_id"
     t.integer "user_id"
   end
 
   create_table "platforms", force: :cascade do |t|
     t.string  "name"
+    t.boolean "online"
     t.integer "user_id"
   end
 
