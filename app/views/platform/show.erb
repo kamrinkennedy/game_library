@@ -1,15 +1,22 @@
-<h1>Here are the games you have for <%= @platform.name %></h1>
+<h1>Your <%= @platform.name %> Games</h1>
 
 <form method="GET" action='/new_game'>
     <input type="hidden" value='<%= @platform.id %>' name='id'>
     <input type="submit" value="Add New Game">
 </form><br><br>
 
+<% if @platform.games == [] %>
+<h2>You currently do not have any games for this platform.</h2>
+<% else %>
+
 <h2><ul>
-    <% @platform.games.each do |game| %>
+    <% sorted = @platform.games.sort_by {|game| game.name } %>
+    <% sorted.each do |game| %>
         <li><a href='/game/<%= game.id %>'><%= game.name %></a></li>
     <% end %>
 </ul></h2><br><br>
+
+<% end %>
 
 <form action='/profile' method ="GET">
     <input type="submit" value="Return to Platforms">

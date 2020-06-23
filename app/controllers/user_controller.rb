@@ -8,14 +8,15 @@ class UserController < ApplicationController
     end
 
     post '/signup' do
-        if params[:user].values.any? { |v| v.blank? }
-            @error = "*Both fields are required for Sign Up*"
-            erb :'user/new'
-        else
-            user = User.create(params[:user])
-            session[:user_id] = user.id
-            redirect to '/profile'
+        @error = '*That username is already being used*'
+        User.all.each do |user|
+            if user.username.downcase.gsub(' ', '') == params[:user][:username].downcase.gsub(' ', '')
+                return erb :'user/new'
+            end
         end
+        user = User.create(params[:user])
+        session[:user_id] = user.id
+        redirect to '/profile'
     end
 
     get '/profile' do
@@ -44,7 +45,7 @@ class UserController < ApplicationController
             session[:user_id] = user.id
             redirect '/profile'
         else
-            @error = "*Invalid information. Please try again*"
+            @error = "*Invalid Username/Password*"
             erb :'user/login'
         end
     end
