@@ -17,12 +17,12 @@
     <div class="wrapper">
 
         <%= yield %>
+
+      <footer class="branding">
         <% if session[:user_id] %>
         <a href='/logout'>Log Out</a>
-        <% end %>
-      <footer class="branding">
+        <% end %><br><br>
         <small>&copy; 2020 <strong>GameLibrary</strong></small>
-        
       </footer>
     </div>
 

@@ -1,0 +1,15 @@
+<h1><%= @game.name %></h1>
+
+<h2>Platform: <a href='/platform/<%= @game.platform.id %>'><%= @game.platform.name %></a></h2><br>
+<h2>Players: <%= @game.players %></h2>
+<h2>Description:</h2>
+<p><%= @game.description %></p><br><br><br><br>
+
+<form method='GET' action='/profile'>
+    <input type='submit' value='Return to Consoles'>
+</form><br><br><br>
+
+<form action="/game/<%=  @game.id  %>" method="POST">
+    <input type="hidden" value="DELETE"  name="_method">
+    <input type="submit" value="Delete this Game">
+</form>

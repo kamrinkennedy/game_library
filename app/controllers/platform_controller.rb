@@ -22,6 +22,8 @@ class PlatformController < ApplicationController
 
     delete '/platform/:id' do
         platform = Platform.find_by_id(params[:id])
+        games = platform.games
+        games.each {|game| game.destroy}
         platform.destroy
         redirect '/profile'
     end

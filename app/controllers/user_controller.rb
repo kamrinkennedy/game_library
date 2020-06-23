@@ -19,6 +19,9 @@ class UserController < ApplicationController
     end
 
     get '/profile' do
+        if !logged_in?
+            redirect '/login'
+        end
         @user = User.find_by_id(session[:user_id])
         @platforms = @user.platforms
         if @user

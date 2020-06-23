@@ -8,16 +8,27 @@ class GameController < ApplicationController
     end
 
     post '/new_game' do
-        game = Game.create(params[:game])
-        game.platform = Platform.find_by_id(params[:id])
-        game.user = current_user
-        game.save
-        redirect "/platform/#{params[:id]}"
+        if params[:game].values.any? { |v| v.blank? }
+            redirect '/new_game'
+        else
+            game = Game.create(params[:game])
+            game.platform = Platform.find_by_id(params[:id])
+            game.user = current_user
+            game.save
+            redirect "/platform/#{params[:id]}"
+        end
     end
 
     get '/game/:id' do
         @game = Game.find_by_id(params[:id])
         erb :'game/show'
+    end
+    
+    delete '/game/:id' do
+        game = Game.find_by_id(params[:id])
+        platform = game.platform
+        game.destroy
+        redirect "/platform/#{platform.id}"
     end
 
     helpers do

@@ -1,15 +1,21 @@
 <h1>Here are the games you have for <%= @platform.name %></h1>
+
 <form method="GET" action='/new_game'>
-<input type="hidden" value='<%= @platform.id %>' name='id'>
-<input type="submit" value="Add New Game">
-</form>
-<br><br>
-<% @platform.games.each do |game| %>
-<h2><a href='/game/<% game.id %>'><%= game.name %></a></h2>
-<% end %>
-<br><br>
+    <input type="hidden" value='<%= @platform.id %>' name='id'>
+    <input type="submit" value="Add New Game">
+</form><br><br>
+
+<h2><ul>
+    <% @platform.games.each do |game| %>
+        <li><a href='/game/<%= game.id %>'><%= game.name %></a></li>
+    <% end %>
+</ul></h2><br><br>
+
+<form action='/profile' method ="GET">
+    <input type="submit" value="Return to Platforms">
+</form><br>
 
 <form action="/platform/<%=  @platform.id  %>" method="POST">
-  <input type="hidden" value="DELETE"  name="_method">
-  <input type="submit" value="Delete this Platform">
+    <input type="hidden" value="DELETE"  name="_method">
+    <input type="submit" value="Delete this Platform">
 </form>

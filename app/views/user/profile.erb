@@ -1,8 +1,8 @@
-<h1>Welcome, <%= @user.username %>! Here are all of your platforms:</h1>
-<br><br>
+<h1>Welcome, <%= @user.username %>! Here are all of your platforms:</h1><br><br>
+
 <form method="GET" action='/new_platform'>
-<input type="submit" value="Add New Platform">
-<br><br>
-<% @platforms.each do |platform| %>
-<h2><a href='/platform/<%= platform.id %>'><%= platform.name %></a></h2>
-<% end %>
+    <input type="submit" value="Add New Platform">
+</form><br><br>
+        <% @platforms.each do |platform| %>
+            <h2><a href='/platform/<%= platform.id %>'><%= platform.name %></a></h2>
+        <% end %>
