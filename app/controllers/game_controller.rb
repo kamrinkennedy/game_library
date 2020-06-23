@@ -8,15 +8,19 @@ class GameController < ApplicationController
     end
 
     post '/new_game' do
-        if params[:game].values.any? { |v| v.blank? }
-            redirect '/new_game'
-        else
-            game = Game.create(params[:game])
-            game.platform = Platform.find_by_id(params[:id])
-            game.user = current_user
-            game.save
-            redirect "/platform/#{params[:id]}"
+        @platform = Platform.find_by_id(params[:id])
+        games = @platform.games
+        games.each do |game|
+        @error = '*You already have that game in your collection.*'
+            if game.name.downcase.gsub(' ', '') == params[:game][:name].downcase.gsub(' ', '')
+                return erb :'game/new_game'
+            end
         end
+        game = Game.create(params[:game])
+        game.platform = Platform.find_by_id(params[:id])
+        game.user = current_user
+        game.save
+        redirect "/platform/#{params[:id]}"
     end
 
     get '/game/:id' do

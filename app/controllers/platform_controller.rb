@@ -5,14 +5,17 @@ class PlatformController < ApplicationController
     end
 
     post '/new_platform' do
-        if params[:platform].values.any?{|v| v.blank?}
-            redirect '/new_platform'
-        else
-            platform = Platform.create(params[:platform])
-            platform.user = current_user
-            platform.save
-            redirect '/profile'
+        platforms = current_user.platforms
+        @error = '*You already have that platform in your collection.*'
+        platforms.each do |platform|
+            if platform.name.downcase.gsub(' ', '') == params[:platform][:name].downcase.gsub(' ', '')
+                return erb :'platform/new_platform'
+            end
         end
+        platform = Platform.create(params[:platform])
+        platform.user = current_user
+        platform.save
+        redirect '/profile'
     end
 
     get '/platform/:id' do 

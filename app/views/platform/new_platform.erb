@@ -1,9 +1,13 @@
 <h1>Fill out the following information to add a new platform to your collection.</h1><br><br>
 
+<% if @error %>
+    <h2><%= @error %></h2>
+<% end %>
+
 <form method="POST" action='/new_platform'>
-    <h2>Name of Platform: <input type="text" name="platform[name]"></h2>
+    <h2>Name of Platform: <input type="text" name="platform[name]" required></h2>
     <h2>Online Capability: </h2>
-    <input type="radio" id="yes" name="platform[online]" value="Yes">
+    <input type="radio" id="yes" name="platform[online]" value="Yes" required>
     <label for="yes">Yes</label><br>
     <input type="radio" id= "no" name="platform[online]" value="No">
     <label for="no">No</label><br><br><br>

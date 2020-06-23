@@ -19,8 +19,12 @@
         <%= yield %>
 
       <footer class="branding">
+        <a href='/'>Home</a><br><br>
         <% if session[:user_id] %>
-        <a href='/logout'>Log Out</a>
+        <p>Logged in as <%= current_user.username %></p>
+        <form method="GET" action='/logout'>
+        <input type="submit" value="Log Out">
+        </form>
         <% end %><br><br>
         <small>&copy; 2020 <strong>GameLibrary</strong></small>
       </footer>
