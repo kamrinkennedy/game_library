@@ -28,7 +28,11 @@ class GameController < ApplicationController
             redirect '/login'
         end
         @game = Game.find_by_id(params[:id])
-        erb :'game/show'
+        if @game
+            erb :'game/show'
+        else
+            redirect '/profile'
+        end
     end
     
     delete '/game/:id' do
@@ -36,6 +40,31 @@ class GameController < ApplicationController
         platform = game.platform
         game.destroy
         redirect "/platform/#{platform.id}"
+    end
+
+    get '/game/:id/edit' do
+        @game = Game.find_by_id(params[:id])
+        
+        if @game.user.id == current_user.id
+            @platforms = current_user.platforms
+            erb :'game/edit'
+        else
+            redirect '/profile'
+        end
+    end
+
+    patch '/game/:id/edit' do
+        game = Game.find_by_id(params[:id])
+        if game.user.id == current_user.id
+            game.name = params[:game][:name]
+            game.platform = Platform.find_by_id(params[:game][:platform])
+            game.players = params[:game][:players]
+            game.description = params[:game][:description]
+            game.save
+            redirect "/game/#{game.id}"
+        else
+            redirect '/profile'
+        end
     end
 
     helpers do

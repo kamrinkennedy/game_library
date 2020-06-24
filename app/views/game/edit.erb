@@ -1,0 +1,17 @@
+<h1>Update Your Game</h1>
+
+
+<form method="POST" action = '/game/<%= @game.id %>/edit'>
+    <input type="hidden" value="PATCH" name="_method">
+    <h2>Name: <input type="text" name='game[name]' value='<%= @game.name %>' required></h2><br>
+    <h2>Platform: </h2>
+    <% @platforms.each do |platform| %>
+        <input type="radio" name='game[platform]' id="<%=platform.id%>" value="<%=platform.id%>" required>
+        <b><%=platform.name%></b><br>
+    <% end %>
+    <h2>Players: <input type="text" name='game[players]' value='<%= @game.players %>' required></h2>
+    <h2>Description:</h2><br>
+    <textarea name='game[description]' rows='8' cols='50' required><%= @game.description %></textarea>
+    
+    <input type="submit" value="Submit">
+</form>
