@@ -24,6 +24,9 @@ class GameController < ApplicationController
     end
 
     get '/game/:id' do
+        if !logged_in?
+            redirect '/login'
+        end
         @game = Game.find_by_id(params[:id])
         erb :'game/show'
     end

@@ -20,7 +20,7 @@ class UserController < ApplicationController
     end
 
     get '/profile' do
-        if !logged_in?
+        if !session[:user_id]
             redirect '/login'
         end
         @user = User.find_by_id(session[:user_id])

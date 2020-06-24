@@ -19,6 +19,9 @@ class PlatformController < ApplicationController
     end
 
     get '/platform/:id' do 
+        if !logged_in?
+            redirect '/login'
+        end
         @platform = Platform.find_by_id(params[:id])
         erb :'platform/show'
     end
