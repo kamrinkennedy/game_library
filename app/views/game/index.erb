@@ -1,0 +1,13 @@
+<h1><%= current_user.username %>'s Games</h1><br><br>
+
+<form method="GET" action="/new_game">
+    <input type='submit' value='Add New Game'>
+</form>
+
+<% if current_user.games == [] %>
+    <h2><%= current_user.username %> does not have any games yet.</h2>
+<% end %>
+
+<% current_user.games.each do |game| %>
+    <h2><a href='/game/<%=game.id%>'><%=game.name%></a></h2><br>
+<% end %>

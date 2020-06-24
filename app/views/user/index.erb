@@ -1,0 +1,7 @@
+<h1>Click on a User to view their games</h1><br><br>
+
+<% @users.each do |user| %>
+    <% if user != current_user %>
+        <h2><a href='/user/<%= user.id %>'><%= user.username %></a></h2><br>
+    <% end %>
+<% end %>

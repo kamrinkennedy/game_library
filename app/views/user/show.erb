@@ -1,0 +1,9 @@
+<h1>Here are <%= @user.username %>'s games</h1><br><br>
+
+<% if @user.games == [] %>
+    <h2><%= @user.username %> does not have any games yet</h2>
+<% else %>
+    <% @user.games.each do |game| %>
+    <h2><a href='/game/<%=game.id%>'><%=game.name%></a></h2>
+    <% end %>
+<% end %>

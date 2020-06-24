@@ -1,4 +1,4 @@
-<h1>Fill out the following information to add a new game for the <%= @platform.name %> platform.</h1>
+<h1>Add a new game to your collection</h1>
 <% if @error %>
     <%= @error %>
 <% end %>
@@ -6,9 +6,13 @@
 
 <form method="POST" action = '/new_game'>
     <h2>Name: <input type="text" name='game[name]' placeholder='Game Title' required></h2><br>
-    <h2>Players: <input type="text" name='game[players]' placeholder='Ex.~ 1-4 Players' required></h2>
+    <h2>Platform: </h2>
+    <% current_user.platforms.each do |platform| %>
+        <input type="radio" name='game[platform]' id="<%=platform.id%>" value="<%=platform.id%>" required>
+        <b><%=platform.name%></b><br>
+    <% end %>
+    <h2>Players: <input type="text" name='game[players]' placeholder='e.g. 1-4 Players' required></h2>
     <h2>Description:</h2><br>
     <textarea name='game[description]' rows='8' cols='50' placeholder='Write a short description here.' required></textarea>
-    <input type="hidden" name='id' value='<%= @platform.id %>'>
     <input type="submit" value="Submit">
 </form>

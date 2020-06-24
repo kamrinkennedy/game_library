@@ -8,7 +8,7 @@ class UserController < ApplicationController
     end
 
     post '/signup' do
-        @error = '*That username is already being used*'
+        @error = '*That username is already in use*'
         User.all.each do |user|
             if user.username.downcase.gsub(' ', '') == params[:user][:username].downcase.gsub(' ', '')
                 return erb :'user/new'
@@ -20,7 +20,7 @@ class UserController < ApplicationController
     end
 
     get '/profile' do
-        if !session[:user_id]
+        if !logged_in?
             redirect '/login'
         end
         @user = User.find_by_id(session[:user_id])
@@ -52,7 +52,21 @@ class UserController < ApplicationController
 
     get '/logout' do
         session.clear
-        redirect '/login'
+        redirect '/'
+    end
+
+    get '/user' do
+        @users = User.all
+        erb :'user/index'
+    end
+
+    get '/user/:id' do
+        @user = User.find_by_id(params[:id])
+        if @user
+            erb :'user/show'
+        else
+            redirect '/profile'
+        end
     end
 
     helpers do

@@ -3,24 +3,40 @@ require 'pry'
 class GameController < ApplicationController
 
     get '/new_game' do
+        if !logged_in?
+            redirect '/login'
+        end
         @platform = Platform.find_by_id(params[:id])
         erb :'game/new_game'
     end
 
     post '/new_game' do
-        @platform = Platform.find_by_id(params[:id])
-        games = @platform.games
-        games.each do |game|
+        if !logged_in?
+            redirect '/login'
+        end
+        
+        platform = Platform.find_by_id(params[:game][:platform])
+        games = platform.games
         @error = '*You already have that game in your collection.*'
+        games.each do |game|
             if game.name.downcase.gsub(' ', '') == params[:game][:name].downcase.gsub(' ', '')
                 return erb :'game/new_game'
             end
         end
-        game = Game.create(params[:game])
-        game.platform = Platform.find_by_id(params[:id])
+        game = Game.new(name: params[:game][:name])
+        game.platform = platform
         game.user = current_user
+        game.players = params[:game][:players]
+        game.description = params[:game][:description]
         game.save
-        redirect "/platform/#{params[:id]}"
+        redirect "/game/#{game.id}"
+    end
+
+    get '/game' do
+        if !logged_in?
+            redirect '/login'
+        end
+        erb :'game/index'
     end
 
     get '/game/:id' do
@@ -43,6 +59,9 @@ class GameController < ApplicationController
     end
 
     get '/game/:id/edit' do
+        if !logged_in?
+            redirect '/login'
+        end
         @game = Game.find_by_id(params[:id])
         
         if @game.user.id == current_user.id
@@ -54,6 +73,9 @@ class GameController < ApplicationController
     end
 
     patch '/game/:id/edit' do
+        if !logged_in?
+            redirect '/login'
+        end
         game = Game.find_by_id(params[:id])
         if game.user.id == current_user.id
             game.name = params[:game][:name]
