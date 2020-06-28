@@ -8,9 +8,10 @@ class UserController < ApplicationController
     end
 
     post '/signup' do
-        @error = '*That username is already in use*'
+        
         User.all.each do |user|
             if user.username.downcase.gsub(' ', '') == params[:user][:username].downcase.gsub(' ', '')
+                @error = '*That username is already in use*'
                 return erb :'user/new'
             end
         end
@@ -68,15 +69,5 @@ class UserController < ApplicationController
             redirect '/profile'
         end
     end
-
-    helpers do
-        def logged_in?
-            !!session[:user_id]
-        end
-    
-        def current_user  #memoization
-            @current_user ||= User.find_by_id(session[:user_id])
-        end
-      end
 
 end

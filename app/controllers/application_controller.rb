@@ -9,11 +9,26 @@ class ApplicationController < Sinatra::Base
     set :session_secret, 'top_session'
   end
 
+  not_found do
+    status 404
+    erb :error
+  end
+
   get "/" do
     if logged_in?
       redirect '/profile'
     else
       erb :index
+    end
+  end
+
+  helpers do
+    def logged_in?
+        !!session[:user_id]
+    end
+
+    def current_user
+        @current_user ||= User.find_by_id(session[:user_id])
     end
   end
 

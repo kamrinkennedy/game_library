@@ -2,30 +2,27 @@ require 'pry'
 
 class GameController < ApplicationController
 
-    get '/new_game' do
+    get '/game/new' do
         if !logged_in?
             redirect '/login'
         end
         @platform = Platform.find_by_id(params[:id])
-        erb :'game/new_game'
+        erb :'game/new'
     end
 
-    post '/new_game' do
+    post '/game/new' do
         if !logged_in?
             redirect '/login'
         end
-        
         platform = Platform.find_by_id(params[:game][:platform])
         games = platform.games
-        @error = '*You already have that game in your collection.*'
         games.each do |game|
             if game.name.downcase.gsub(' ', '') == params[:game][:name].downcase.gsub(' ', '')
-                return erb :'game/new_game'
+                @error = '*You already have that game in your collection.*'
+                return erb :'game/new'
             end
         end
-        game = Game.new(name: params[:game][:name])
-        game.platform = platform
-        game.user = current_user
+        game = Game.new(name: params[:game][:name], platform: platform, user: current_user)
         game.players = params[:game][:players]
         game.description = params[:game][:description]
         game.save
@@ -53,6 +50,9 @@ class GameController < ApplicationController
     
     delete '/game/:id' do
         game = Game.find_by_id(params[:id])
+        if !current_user.id == game.user.id
+            redirect '/profile'
+        end
         platform = game.platform
         game.destroy
         redirect "/platform/#{platform.id}"
@@ -86,16 +86,6 @@ class GameController < ApplicationController
             redirect "/game/#{game.id}"
         else
             redirect '/profile'
-        end
-    end
-
-    helpers do
-        def logged_in?
-            !!session[:user_id]
-        end
-    
-        def current_user  #memoization
-            @current_user ||= User.find_by_id(session[:user_id])
         end
     end
 

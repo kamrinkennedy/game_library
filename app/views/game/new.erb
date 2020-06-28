@@ -4,11 +4,15 @@
 <% end %>
 
 
-<form method="POST" action = '/new_game'>
+<form method="POST" action = '/game/new'>
     <h2>Name: <input type="text" name='game[name]' placeholder='Game Title' required></h2><br>
     <h2>Platform: </h2>
     <% current_user.platforms.each do |platform| %>
-        <input type="radio" name='game[platform]' id="<%=platform.id%>" value="<%=platform.id%>" required>
+        <% if @platform == nil %>
+        <% @platform = current_user.platforms.first %>
+        <% end %>
+        <input type="radio" name='game[platform]' id="<%=platform.id%>" value="<%=platform.id%>" required
+        <%= 'checked' if @platform.id == platform.id %>>
         <b><%=platform.name%></b><br>
     <% end %>
     <h2>Players: <input type="text" name='game[players]' placeholder='e.g. 1-4 Players' required></h2>

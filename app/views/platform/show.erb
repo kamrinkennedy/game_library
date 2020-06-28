@@ -1,7 +1,7 @@
 <h1><%= @platform.user.username %>'s <%= @platform.name %> Games</h1>
 
 <% if @platform.user == current_user %>
-<form method="GET" action='/new_game'>
+<form method="GET" action='/game/new'>
     <input type="hidden" value='<%= @platform.id %>' name='id'>
     <input type="submit" value="Add New Game">
 </form><br><br>

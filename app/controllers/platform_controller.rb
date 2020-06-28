@@ -1,18 +1,21 @@
 class PlatformController < ApplicationController
 
-    get '/new_platform' do
+    get '/platform/new' do
         if !logged_in?
             redirect '/login'
+        elsif current_user.platforms.empty? 
+            redirect '/profile'
+        else
+            erb :'platform/new'
         end
-        erb :'platform/new_platform'
     end
 
-    post '/new_platform' do
+    post '/platform/new' do
         platforms = current_user.platforms
         @error = '*You already have that platform in your collection.*'
         platforms.each do |platform|
             if platform.name.downcase.gsub(' ', '') == params[:platform][:name].downcase.gsub(' ', '')
-                return erb :'platform/new_platform'
+                return erb :'/platform/new'
             end
         end
         platform = Platform.create(params[:platform])
@@ -23,24 +26,21 @@ class PlatformController < ApplicationController
 
     get '/platform/:id' do 
         @platform = Platform.find_by_id(params[:id])
-        erb :'platform/show'
+        if @platform
+            erb :'platform/show'
+        else
+            redirect '/profile'
+        end
     end
 
     delete '/platform/:id' do
         platform = Platform.find_by_id(params[:id])
-        games = platform.games
-        games.each {|game| game.destroy}
-        platform.destroy
+        if current_user.id == platform.user.id
+            games = platform.games
+            games.each {|game| game.destroy}
+            platform.destroy
+        end
         redirect '/profile'
     end
 
-    helpers do
-        def logged_in?
-            !!session[:user_id]
-        end
-    
-        def current_user  #memoization
-            @current_user ||= User.find_by_id(session[:user_id])
-        end
-    end
 end
