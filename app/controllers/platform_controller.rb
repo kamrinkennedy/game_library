@@ -3,8 +3,6 @@ class PlatformController < ApplicationController
     get '/platform/new' do
         if !logged_in?
             redirect '/login'
-        elsif current_user.platforms.empty? 
-            redirect '/profile'
         else
             erb :'platform/new'
         end

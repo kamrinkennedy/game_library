@@ -8,18 +8,20 @@
 <h2>Description:</h2>
 <p><%= @game.description %></p><br><br><br><br>
 
+<div class="container">
 <form method='GET' action='/profile'>
-    <input type='submit' value='Return to Platforms'>
+    <input type='submit' class="button" value='Return to Platforms'>
 </form><br><br><br>
 
 <% if @game.user == current_user %>
-<form action='/game/<%= @game.id %>/edit' method='GET'>
-    <input type="submit" value="Edit this Game">
-</form><br><br>
+    <form action='/game/<%= @game.id %>/edit' method='GET'>
+        <input type="submit" class="button" value="Edit this Game">
+    </form><br><br>
 
 
 <form action="/game/<%=  @game.id  %>" method="POST">
     <input type="hidden" value="DELETE"  name="_method">
-    <input type="submit" value="Delete this Game">
+    <input type="submit" class="button" value="Delete this Game">
 </form>
 <% end %>
+</div>

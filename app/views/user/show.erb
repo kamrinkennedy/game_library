@@ -4,6 +4,6 @@
     <h2><%= @user.username %> does not have any games yet</h2>
 <% else %>
     <% @user.games.each do |game| %>
-    <h2><a href='/game/<%=game.id%>'><%=game.name%></a></h2>
+    <h2><a href='/game/<%=game.id%>'><%=game.name%> - <%= game.platform.name %></a></h2>
     <% end %>
 <% end %>

@@ -3,12 +3,12 @@
 <% if @platform.user == current_user %>
 <form method="GET" action='/game/new'>
     <input type="hidden" value='<%= @platform.id %>' name='id'>
-    <input type="submit" value="Add New Game">
+    <input type="submit" class="button" value="Add New Game">
 </form><br><br>
 <% end %>
 
 <% if @platform.games == [] %>
-<h2>There are currently no games for this platform.</h2>
+    <h2>There are currently no games for this platform.</h2>
 <% else %>
 
 <h2><ul>
@@ -17,16 +17,17 @@
         <li><a href='/game/<%= game.id %>'><%= game.name %></a></li>
     <% end %>
 </ul></h2><br><br>
-
 <% end %>
 
+<div class="container">
 <form action='/profile' method ="GET">
-    <input type="submit" value="Return to Platforms">
+    <input type="submit" class="button" value="Return to Platforms">
 </form><br>
 
 <% if @platform.user == current_user %>
-<form action="/platform/<%=  @platform.id  %>" method="POST">
-    <input type="hidden" value="DELETE"  name="_method">
-    <input type="submit" value="Delete this Platform">
-</form>
+    <form action="/platform/<%=  @platform.id  %>" method="POST">
+        <input type="hidden" value="DELETE"  name="_method">
+        <input type="submit" class="button" value="Delete this Platform">
+    </form>
 <% end %>
+</div>

@@ -11,6 +11,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    <link href='https://fonts.googleapis.com/css?family=Allerta Stencil' rel='stylesheet'>
     <link rel="stylesheet" href="/stylesheets/main.css" />
   </head>
   <body>
@@ -23,7 +24,7 @@
         <% if session[:user_id] %>
         <p><i>Logged in as </i><b><%= current_user.username %></b></p>
         <form method="GET" action='/logout'>
-        <input type="submit" value="Log Out">
+        <input type="submit" class="button" value="Log Out">
         </form>
         <% end %><br><br>
         <small>&copy; 2020 <strong>GameLibrary</strong></small>

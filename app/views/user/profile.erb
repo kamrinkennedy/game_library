@@ -1,28 +1,31 @@
 <h1>Welcome, <%= @user.username %>! Here are your platforms:</h1><br><br>
-
+<div class="container">
 <form method="GET" action='/platform/new'>
-    <input type="submit" value="Add New Platform">
+    <input type="submit" class="button" value="Add New Platform">
 </form><br><br>
 
 <% if !@user.platforms.empty? %>
 <form method="GET" action='/game/new'>
-    <input type='submit' value="Add New Game">
+    <input type='submit' class="button" value="Add New Game">
 </form><br><br>
 <% end %>
+</div>
 
 <% if @platforms == [] %>
     <h2>You don't have any platforms yet. Please add a platform to continue.</h2>
 <% else %>
     <% sorted = @platforms.sort_by {|platform| platform.name} %>
     <% sorted.each do |platform| %>
-        <h2><a href='/platform/<%= platform.id %>'><%= platform.name %></a></h2>
+        <h2><a href='/platform/<%= platform.id %>'><%= platform.name %> - <%= platform.games.length %> Game(s)</a></h2>
     <% end %>
 <% end %>
 
+<div class="container">
 <form method='GET' action= '/game'>
-    <input type='submit' value='View All Your Games'>
+    <input type='submit' class="button" value='View All Your Games'>
 </form><br><br>
 
 <form method='GET' action='/user'>
-    <input type="submit" value='View All Users'>
+    <input type="submit" class="button" value='View All Users'>
 </form>
+</div>
