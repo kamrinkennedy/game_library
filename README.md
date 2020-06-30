@@ -11,10 +11,10 @@ Find repository here: (https://github.com/kamrinkennedy/game_library)
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
-#ruby vers
+This application was built with Ruby version 2.6.1
+
 ```
-Give examples
+ruby 2.6.1p33 (2019-01-30 revision 66950) [x86_64-linux]
 ```
 
 ### Installing
